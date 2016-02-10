@@ -22,10 +22,8 @@ get('sitemap.xml', 'BlogController@siteMap');
 get('admin', function () {
   return redirect('/admin/post');
 });
-$router->group([
-  'namespace' => 'Admin',
-  'middleware' => 'auth',
-], function () {
+$router->group(['namespace' => 'Admin', 'middleware' => 'auth'], function () {
+	get('/', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
   resource('admin/post', 'PostController', ['except' => 'show']);
   resource('admin/tag', 'TagController', ['except' => 'show']);
   get('admin/upload', 'UploadController@index');
