@@ -1,9 +1,6 @@
 @extends('admin.layouts.admin_template')
 
 @section('styles')
-  <link href="/assets/pickadate/themes/default.css" rel="stylesheet">
-  <link href="/assets/pickadate/themes/default.date.css" rel="stylesheet">
-  <link href="/assets/pickadate/themes/default.time.css" rel="stylesheet">
   <link href="/assets/selectize/css/selectize.css" rel="stylesheet">
   <link href="/assets/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
 @stop
@@ -101,11 +98,11 @@
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/css/bootstrap-markdown.min.css">
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/js/bootstrap-markdown.min.js"></script>
   <script src="/assets/selectize/selectize.min.js"></script>
+  <script src="/assets/selectize/MySelectize.js"></script>
   <script>
     $(function() {
-      $("#tags").selectize({
-        create: true
-      });
+      $("#tags").MySelectize(({
+        });
     });
   </script>
 @stop

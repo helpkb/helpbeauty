@@ -68,14 +68,13 @@ class BlogIndexData extends Job implements SelfHandling
     protected function tagIndexData($tag)
     {
         $tag = Tag::where('tag', $tag)->firstOrFail();
-        $reverse_direction = (bool)$tag->reverse_direction;
 
         $posts = Post::where('published_at', '<=', Carbon::now())
             ->whereHas('tags', function ($q) use ($tag) {
                 $q->where('tag', '=', $tag->tag);
             })
             ->where('is_draft', 0)
-            ->orderBy('published_at', $reverse_direction ? 'asc' : 'desc')
+            ->orderBy('published_at', 'asc')
             ->simplePaginate(config('blog.posts_per_page'));
         $posts->addQuery('tag', $tag->tag);
 
@@ -87,8 +86,6 @@ class BlogIndexData extends Job implements SelfHandling
             'posts' => $posts,
             'page_image' => $page_image,
             'tag' => $tag,
-            'reverse_direction' => $reverse_direction,
-            'meta_description' => $tag->meta_description ?: config('blog.description'),
         ];
     }
 }

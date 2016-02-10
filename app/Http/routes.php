@@ -8,7 +8,7 @@ get('/', function () {
 
 
 get('blog', 'BlogController@index');
-get('f/{slug}', 'BlogController@showPost');
+get('{slug}', 'BlogController@showPost');
 
 
 $router->get('contact', 'ContactController@showForm');

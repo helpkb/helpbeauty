@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     protected $fillable = [
-        'tag', 'title', 'subtitle', 'page_image', 'meta_description',
-        'reverse_direction',
+        'tag'
     ];
 
     /**
@@ -44,19 +43,5 @@ class Tag extends Model
                 'reverse_direction' => false,
             ]);
         }
-    }
-
-    /**
-     * Return the index layout to use for a tag
-     *
-     * @param string $tag
-     * @param string $default
-     * @return string
-     */
-    public static function layout($tag, $default = 'blog.layouts.index')
-    {
-        $layout = static::whereTag($tag)->pluck('layout');
-
-        return $layout ?: $default;
     }
 }
