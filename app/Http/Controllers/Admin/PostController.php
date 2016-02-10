@@ -11,6 +11,8 @@ use App\Post;
 
 class PostController extends Controller
 {
+
+
   /**
    * Display a listing of the posts.
    */
@@ -37,7 +39,8 @@ class PostController extends Controller
    */
   public function store(PostCreateRequest $request)
   {
-    $post = Post::create($request->postFillData());
+    //$post = Post::create($request->postFillData());
+    Post::create($request->all());
     $post->syncTags($request->get('tags', []));
 
     return redirect()

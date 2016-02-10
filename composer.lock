@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7c7b3f04d324fa28d8bdc5a84efdfaae",
-    "content-hash": "0e69f629ac51fc4e954f5bd3fe560763",
+    "hash": "93976a3d0a8bcbc93ce5e1eab52160f0",
+    "content-hash": "f0f79ca6ac2b2b7247a9b325dfffaa1e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1007,12 +1007,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "581943b46d0736605e4ef4676e9a820bbfff7388"
+                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/581943b46d0736605e4ef4676e9a820bbfff7388",
-                "reference": "581943b46d0736605e4ef4676e9a820bbfff7388",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
+                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
                 "shasum": ""
             },
             "require": {
@@ -1050,7 +1050,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-01-30 02:04:34"
+            "time": "2016-02-10 14:20:03"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1355,6 +1355,52 @@
                 "tokenizer"
             ],
             "time": "2015-12-05 17:17:57"
+        },
+        {
+            "name": "laracasts/presenter",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/Presenter.git",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/Presenter/zipball/b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Presenter": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Simple view presenters",
+            "keywords": [
+                "laravel",
+                "presenter",
+                "view"
+            ],
+            "time": "2014-09-13 13:18:07"
         },
         {
             "name": "laravel/framework",
@@ -4622,6 +4668,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "laravel/framework": 20,
         "barryvdh/laravel-debugbar": 20
     },
     "prefer-stable": false,

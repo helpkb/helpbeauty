@@ -34,6 +34,9 @@ class BlogController extends Controller
   public function showPost($slug, Request $request)
   {
     $post = Post::with('tags')->whereSlug($slug)->firstOrFail();
+
+
+
     $tag = $request->get('tag');
     if ($tag) {
       $tag = Tag::whereTag($tag)->firstOrFail();
@@ -41,6 +44,31 @@ class BlogController extends Controller
 
     return view('blog.show', compact('post', 'tag'));
   }
+
+
+
+
+  public function showByTag($tag, Request $request)
+  {
+    $tag = $request->get('tag');
+    print_r($tag);
+    exit;
+
+    $posts = Post::whereHas('tags', function ($q) use ($tag) {
+        $q->where('tag', '=', $tag->tag);
+      })
+      ->orderBy('published_at', 'asc');
+    $posts->addQuery('tag', $tag->tag);
+
+print_r($posts);
+exit;
+
+    return view('blog.index', compact('posts', 'tag'));
+  }
+
+
+
+
 
   public function rss(RssFeed $feed)
   {
