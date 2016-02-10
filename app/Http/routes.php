@@ -43,7 +43,7 @@ $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'a
     get('posts', ['as' => 'admin.post.index', 'uses' => 'PostController@index']);
     get('post/create', ['as' => 'admin.post.create', 'uses' => 'PostController@create']);
     post('posts', ['as' => 'admin.post.store', 'uses' => 'PostController@store']);
-    get('posts/{post}/edit', ['as' => 'admin.post.edit', 'uses' => 'PostController@edit']);
+    get('post/{post}/edit', ['as' => 'admin.post.edit', 'uses' => 'PostController@edit']);
     put('posts/{post}', ['as' => 'admin.post.update', 'uses' => 'PostController@update']);
     delete('posts/{post}', ['as' => 'admin.post.destroy', 'uses' => 'PostController@destroy']);
 
