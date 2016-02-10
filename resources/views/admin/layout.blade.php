@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{ config('blog.title') }} Admin</title>
+  <title>Admin</title>
 
   <link href="/assets/css/admin.css" rel="stylesheet">
   @yield('styles')
@@ -27,7 +27,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">{{ config('blog.title') }} Admin</a>
+      <a class="navbar-brand" href="#">Admin</a>
     </div>
     <div class="collapse navbar-collapse" id=navbar-menu">
       @include('admin.partials.navbar')

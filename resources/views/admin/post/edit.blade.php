@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.layouts.admin_template')
 
 @section('styles')
   <link href="/assets/pickadate/themes/default.css" rel="stylesheet">

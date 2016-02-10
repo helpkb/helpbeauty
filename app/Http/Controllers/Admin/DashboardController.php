@@ -1,11 +1,8 @@
-<?php namespace Modules\Dashboard\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Modules\Core\Contracts\Authentication;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
-use Modules\Dashboard\Repositories\WidgetRepository;
-use Pingpong\Modules\Repository;
 
 class DashboardController extends AdminBaseController
 {
@@ -23,12 +20,9 @@ class DashboardController extends AdminBaseController
      * @param WidgetRepository $widget
      * @param Authentication $auth
      */
-    public function __construct(Repository $modules, WidgetRepository $widget, Authentication $auth)
+    public function __construct()
     {
         parent::__construct();
-        $this->bootWidgets($modules);
-        $this->widget = $widget;
-        $this->auth = $auth;
     }
 
     /**
@@ -38,65 +32,7 @@ class DashboardController extends AdminBaseController
     public function index()
     {
         $this->requireAssets();
-
-        $widget = $this->widget->findForUser($this->auth->check()->id);
-
-        $customWidgets = json_encode(null);
-        if ($widget) {
-            $customWidgets = $widget->widgets;
-        }
-
-        return view('dashboard::admin.dashboard', compact('customWidgets'));
-    }
-
-    /**
-     * Save the current state of the widgets
-     * @param Request $request
-     * @return mixed
-     */
-    public function save(Request $request)
-    {
-        $widgets = $request->get('grid');
-
-        if (empty($widgets)) {
-            return Response::json([false]);
-        }
-
-        $this->widget->updateOrCreateForUser($widgets, $this->auth->check()->id);
-
-        return Response::json([true]);
-    }
-
-    /**
-     * Reset the grid for the current user
-     */
-    public function reset()
-    {
-        $widget = $this->widget->findForUser($this->auth->check()->id);
-
-        if (!$widget) {
-            return redirect()->route('dashboard.index')->with('warning', trans('dashboard::dashboard.reset not needed'));
-        }
-
-        $this->widget->destroy($widget);
-
-        return redirect()->route('dashboard.index')->with('success', trans('dashboard::dashboard.dashboard reset'));
-    }
-
-    /**
-     * Boot widgets for all enabled modules
-     * @param Repository $modules
-     */
-    private function bootWidgets(Repository $modules)
-    {
-        foreach ($modules->enabled() as $module) {
-            if (! $module->widgets) {
-                continue;
-            }
-            foreach ($module->widgets as $widgetClass) {
-                app($widgetClass)->boot();
-            }
-        }
+        return view('dashboard::admin.dashboard');
     }
 
     /**

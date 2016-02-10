@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.admin_template')
 
 @section('content-header')
 <h1>
