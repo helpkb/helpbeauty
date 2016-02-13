@@ -1,122 +1,91 @@
 @extends('admin.layouts.admin_template')
 
-@section('content-header')
-<h1>
-    {{ trans('blog::category.title.category') }}
-</h1>
-<ol class="breadcrumb">
-    <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-    <li class="active">{{ 'category.title.category' }}</li>
-</ol>
-@stop
-
 @section('content')
-<div class="row">
-    <div class="col-xs-12">
-        <div class="row">
-            <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                    <i class="fa fa-pencil"></i> {{ 'category.button.create category' }}
-                </a>
-            </div>
+    <div class="row page-title-row">
+        <div class="col-md-6">
+            <h3>Categories
+                <small>&raquo; Listing</small>
+            </h3>
         </div>
-        <div class="box box-primary">
-            <div class="box-header">
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <table class="data-table table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>{{ 'Name' }}</th>
-                            <th>{{ 'Slug' }}</th>
-                            <th>{{ 'Created at' }}</th>
-                            <th data-sortable="false">{{ 'Actions' }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php if (isset($categories)): ?>
-                        <?php foreach ($categories as $category): ?>
-                            <tr>
-                                <td>
-                                    <a href="{{ route('admin.category.edit', [$category->id]) }}">
-                                        {{ $category->id }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.category.edit', [$category->id]) }}">
-                                        {{ $category->name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.category.edit', [$category->id]) }}">
-                                        {{ $category->slug }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.category.edit', [$category->id]) }}">
-                                        {{ $category->created_at }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="{{ route('admin.category.edit', [$category->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.category.destroy', [$category->id]) }}"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Id</th>
-                            <th>{{ 'Name' }}</th>
-                            <th>{{ 'Slug' }}</th>
-                            <th>{{ 'Created at' }}</th>
-                            <th data-sortable="false">{{ 'Actions' }}</th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class="col-md-6 text-right">
+            <a href="/admin/category/create" class="btn btn-success btn-md">
+                <i class="fa fa-plus-circle"></i> New Category
+            </a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @include('admin.partials.errors')
+            @include('admin.partials.success')
+
+
+            <table class="categories-table table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>{{ 'Name' }}</th>
+                    <th>{{ 'Slug' }}</th>
+                    <th data-sortable="false">{{ 'Actions' }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if (isset($categories)): ?>
+                <?php foreach ($categories as $category): ?>
+                <tr>
+                    <td>
+                        <a href="{{ route('admin.category.edit', [$category->id]) }}">
+                            {{ $category->id }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.category.edit', [$category->id]) }}">
+                            {{ $category->name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.category.edit', [$category->id]) }}">
+                            {{ $category->slug }}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ route('admin.category.edit', [$category->id]) }}"
+                               class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                            <button class="btn btn-danger btn-flat" data-toggle="modal"
+                                    data-target="#modal-delete-confirmation"
+                                    data-action-target="{{ route('admin.category.destroy', [$category->id]) }}"><i
+                                        class="fa fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>{{ 'Name' }}</th>
+                    <th>{{ 'Slug' }}</th>
+                    <th data-sortable="false">{{ 'Actions' }}</th>
+                </tr>
+                </tfoot>
+            </table>
             <!-- /.box-body -->
-            </div>
+        </div>
         <!-- /.box -->
     </div>
-    </div>
-</div>
-@stop
-
-@section('footer')
-    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
-@stop
-@section('shortcuts')
-    <dl class="dl-horizontal">
-        <dt><code>c</code></dt>
-        <dd>{{ trans('blog::category.title.create category') }}</dd>
-    </dl>
 @stop
 
 @section('scripts')
-<?php $locale = App::getLocale(); ?>
-<script type="text/javascript">
-    $( document ).ready(function() {
-        $(document).keypressAction({
-            actions: [
-                { key: 'c', route: "<?= route('admin.category.create') ?>" }
-            ]
+    <script>
+        $(function () {
+            $("#category-table").DataTable({
+                order: [[0, "desc"]],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            });
         });
-    });
-    $(function () {
-        $('.data-table').dataTable({
-            "paginate": true,
-            "lengthChange": true,
-            "filter": true,
-            "sort": true,
-            "info": true,
-            "autoWidth": true,
-            "order": [[ 0, "desc" ]]
-        });
-    });
-</script>
+    </script>
 @stop

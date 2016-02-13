@@ -27,7 +27,7 @@
                   action="{{ route('admin.category.store') }}">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-              @include('admin.post._form')
+              @include('admin.category._form')
 
               <div class="col-md-8">
                 <div class="form-group">
@@ -52,7 +52,6 @@
 
 @section('scripts')
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/css/bootstrap-markdown.min.css">
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/js/bootstrap-markdown.min.js"></script>
   <script src="/assets/selectize/selectize.min.js"></script>
   <script>
     $(function() {

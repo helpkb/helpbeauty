@@ -1,61 +1,44 @@
 @extends('admin.layouts.admin_template')
 
-@section('content-header')
-<h1>
-    {{ trans('blog::category.title.edit category') }} <small>{{ $category->name }}</small>
-</h1>
-<ol class="breadcrumb">
-    <li><a href="{{ URL::route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-    <li><a href="{{ URL::route('admin.category.index') }}">{{ trans('blog::category.title.category') }}</a></li>
-    <li class="active">{{ trans('blog::category.title.edit category') }}</li>
-</ol>
-@stop
-
 @section('content')
-{!! Form::open(['route' => ['admin.category.update', $category->id], 'method' => 'put']) !!}
-<div class="row">
-    <div class="col-md-12">
-        <div class="nav-tabs-custom">
-            @include('partials.form-tab-headers')
-            <div class="tab-content">
-                <?php $i = 0; ?>
-                <?php foreach (LaravelLocalization::getSupportedLocales() as $locale => $language): ?>
-                    <?php $i++; ?>
-                    <div class="tab-pane {{ App::getLocale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                        @include('blog::admin.categories.partials.edit-fields')
-                    </div>
-                <?php endforeach; ?>
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                    <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>
-                    <a class="btn btn-danger pull-right btn-flat" href="{{ URL::route('admin.category.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
-                </div>
-            </div>
-        </div> {{-- end nav-tabs-custom --}}
+
+    <h1>Editing {{ $category->name }}</h1>
+
+    <hr>
+
+            @include('admin.partials.errors')
+
+    @if(Session::has('flash_message'))
+        <div class="alert alert-success">
+            {{ Session::get('flash_message') }}
+        </div>
+    @endif
+
+    {!! Form::model($category, [
+        'method' => 'PUT',
+        'route' => ['admin.category.update', $category->id]
+    ]) !!}
+
+
+
+<div class="col-md-8">
+    <div class="form-group">
+        {!! Form::label('name', 'Name:', ['class' => 'control-label']) !!}
+        {!! Form::text('name', null, ['class' => 'form-control']) !!}
     </div>
-</div>
+    <div class="form-group">
+        {!! Form::label('slug', 'Slug:', ['class' => 'control-label']) !!}
+        {!! Form::text('slug', null, ['class' => 'form-control']) !!}
+    </div>
 
-{!! Form::close() !!}
-@stop
+    {!! Form::submit('Update Category', ['class' => 'btn btn-primary']) !!}
 
-@section('footer')
-    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
-@stop
-@section('shortcuts')
-    <dl class="dl-horizontal">
-        <dt><code>b</code></dt>
-        <dd>{{ trans('core::core.back to index', ['name' => 'categories']) }}</dd>
-    </dl>
+
+              </div>
+
+    {!! Form::close() !!}
+
 @stop
 
 @section('scripts')
-    <script>
-        $( document ).ready(function() {
-            $(document).keypressAction({
-                actions: [
-                    { key: 'b', route: "<?= route('admin.category.index') ?>" }
-                ]
-            });
-        });
-    </script>
 @stop

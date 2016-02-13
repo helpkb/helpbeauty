@@ -66,11 +66,11 @@ get('roles', ['as' => 'admin.user.role.index', 'uses' => 'RolesController@index'
 
   //resource('admin/tag', 'TagController', ['except' => 'show']);
 
-  Route::get('admin/upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
-  Route::post('admin/upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@uploadFile']);
-  Route::delete('admin/upload/file', ['as' => 'upload.delete', 'uses' => 'UploadController@deleteFile']);
-  Route::post('admin/upload/folder', ['as' => 'upload.folder', 'uses' => 'UploadController@createFolder']);
-  Route::delete('admin/upload/folder', ['as' => 'upload.deletefolder', 'uses' => 'UploadController@deleteFolder']);
+  Route::get('upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
+  Route::post('upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@uploadFile']);
+  Route::delete('upload/file', ['as' => 'upload.delete', 'uses' => 'UploadController@deleteFile']);
+  Route::post('upload/folder', ['as' => 'upload.folder', 'uses' => 'UploadController@createFolder']);
+  Route::delete('upload/folder', ['as' => 'upload.deletefolder', 'uses' => 'UploadController@deleteFolder']);
 });
 
 

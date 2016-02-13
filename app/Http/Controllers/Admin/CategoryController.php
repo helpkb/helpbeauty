@@ -11,6 +11,15 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+  /**
+   * @var CategoryRepository
+   */
+  private $category;
+
+  public function __construct(Category $category)
+  {
+    $this->category = $category;
+  }
 
   /**
    * Display a listing of the resource.
@@ -43,22 +52,7 @@ class CategoryController extends Controller
    */
   public function store(StoreCategoryRequest $request)
   {
-    /*
-        //$post = Post::create($request->postFillData());
-        Post::create($request->all());
-        $post->syncTags($request->get('tags', []));
-
-        return redirect()
-          ->route('admin.post.index')
-          ->withSuccess('New Post Successfully Created.');
-     *
-     **/
-
-
     Category::create($request->all());
-
-    //flash('messages.category created');
-
     return redirect()->route('admin.category.index')->withSuccess('New Category Successfully Created.');
   }
 
@@ -68,9 +62,11 @@ class CategoryController extends Controller
    * @param  Category $category
    * @return Response
    */
-  public function edit(Category $category)
+  public function edit($id)
   {
-    return view('admin.category.edit', compact('category'));
+    $category = Category::findOrFail($id);
+
+    return view('admin.category.edit')->withCategory($category);
   }
 
   /**
@@ -80,13 +76,15 @@ class CategoryController extends Controller
    * @param  UpdateCategoryRequest $request
    * @return Response
    */
-  public function update(Category $category, UpdateCategoryRequest $request)
+  public function update($id, UpdateCategoryRequest $request)
   {
-    $this->category->update($category, $request->all());
+    $category = Category::findOrFail($id);
 
-    flash('messages.category updated');
+    $input = $request->all();
 
-    return redirect()->route('admin.category.index');
+    $category->fill($input)->save();
+
+    return redirect()->route('admin.category.index')->withSuccess('Category saved.');
   }
 
   /**
@@ -98,9 +96,6 @@ class CategoryController extends Controller
   public function destroy(Category $category)
   {
     $this->category->destroy($category);
-
-    flash('blog::messages.category deleted');
-
-    return redirect()->route('admin.category.index');
+    return redirect()->route('admin.category.index')->withSuccess('Category deleted.');
   }
 }

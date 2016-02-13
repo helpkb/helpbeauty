@@ -10,7 +10,7 @@
             <li class="treeview">
                 <a href="#"><span>Modules</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li @if (Request::is('admin/categories*')) class="active" @endif> <a href="{{ URL::route('admin.post.index') }}">List Modules</a></li>
+                    <li @if (Request::is('admin/category*')) class="active" @endif> <a href="{{ URL::route('admin.category.index') }}">List Modules</a></li>
                 </ul>
             </li>
             <li class="treeview">

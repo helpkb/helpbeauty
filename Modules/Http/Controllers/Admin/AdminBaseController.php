@@ -1,47 +1,49 @@
-<?php namespace Modules\Core\Http\Controllers\Admin;
+<?php
+
+namespace Modules\Core\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
 
 class AdminBaseController extends Controller
 {
-    /**
-     * @var AssetManager
-     */
-    protected $assetManager;
-    /**
-     * @var AssetPipeline
-     */
-    protected $assetPipeline;
+  /**
+   * @var AssetManager
+   */
+  protected $assetManager;
+  /**
+   * @var AssetPipeline
+   */
+  protected $assetPipeline;
 
-    public function __construct()
-    {
-        $this->assetManager = app('Modules\Core\Foundation\Asset\Manager\AssetManager');
-        $this->assetPipeline = app('Modules\Core\Foundation\Asset\Pipeline\AssetPipeline');
+  public function __construct()
+  {
+    $this->assetManager = app('Modules\Core\Foundation\Asset\Manager\AssetManager');
+    $this->assetPipeline = app('Modules\Core\Foundation\Asset\Pipeline\AssetPipeline');
 
-        $this->addAssets();
-        $this->requireDefaultAssets();
+    $this->addAssets();
+    $this->requireDefaultAssets();
+  }
+
+  /**
+   * Add the assets from the config file on the asset manager
+   */
+  private function addAssets()
+  {
+    foreach (config('asgard.core.core.admin-assets') as $assetName => $path) {
+      if (key($path) == 'theme') {
+        $this->assetManager->addAsset($assetName, Theme::url($path['theme']));
+      } else {
+        $this->assetManager->addAsset($assetName, Module::asset($path['module']));
+      }
     }
+  }
 
-    /**
-     * Add the assets from the config file on the asset manager
-     */
-    private function addAssets()
-    {
-        foreach (config('asgard.core.core.admin-assets') as $assetName => $path) {
-            if (key($path) == 'theme') {
-                $this->assetManager->addAsset($assetName, Theme::url($path['theme']));
-            } else {
-                $this->assetManager->addAsset($assetName, Module::asset($path['module']));
-            }
-        }
-    }
-
-    /**
-     * Require the default assets from config file on the asset pipeline
-     */
-    private function requireDefaultAssets()
-    {
-        $this->assetPipeline->requireCss(config('asgard.core.core.admin-required-assets.css'));
-        $this->assetPipeline->requireJs(config('asgard.core.core.admin-required-assets.js'));
-    }
+  /**
+   * Require the default assets from config file on the asset pipeline
+   */
+  private function requireDefaultAssets()
+  {
+    $this->assetPipeline->requireCss(config('asgard.core.core.admin-required-assets.css'));
+    $this->assetPipeline->requireJs(config('asgard.core.core.admin-required-assets.js'));
+  }
 }

@@ -1,9 +1,5 @@
 @extends('admin.layouts.admin_template')
 
-@section('styles')
-  <link href="/assets/selectize/css/selectize.css" rel="stylesheet">
-  <link href="/assets/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
-@stop
 
 @section('content')
   <div class="container-fluid">
@@ -34,11 +30,6 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-2">
-                    <button type="submit" class="btn btn-primary btn-lg"
-                            name="action" value="continue">
-                      <i class="fa fa-floppy-o"></i>
-                      Save - Continue
-                    </button>
                     <button type="submit" class="btn btn-success btn-lg"
                             name="action" value="finished">
                       <i class="fa fa-floppy-o"></i>

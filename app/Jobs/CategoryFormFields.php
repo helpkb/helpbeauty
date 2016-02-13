@@ -46,6 +46,7 @@ class CategoryFormFields extends Job implements SelfHandling
     $fields = $this->fieldList;
 
     if ($this->id) {
+      /*I am going to fill these fields with value from the ID */
       $fields = $this->fieldsFromModel($this->id, $fields);
     }
 
@@ -68,8 +69,7 @@ class CategoryFormFields extends Job implements SelfHandling
   protected function fieldsFromModel($id, array $fields)
   {
     $category = Category::findOrFail($id);
-
-    $fieldNames = array_keys(array_except($fields));
+    $fieldNames = array_keys($fields);
 
     $fields = ['id' => $id];
     foreach ($fieldNames as $field) {
