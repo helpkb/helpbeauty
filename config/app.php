@@ -134,6 +134,7 @@ return [
     Illuminate\Redis\RedisServiceProvider::class,
     Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
     Illuminate\Session\SessionServiceProvider::class,
+    'Cviebrock\EloquentSluggable\SluggableServiceProvider',
     Illuminate\Translation\TranslationServiceProvider::class,
     Illuminate\Validation\ValidationServiceProvider::class,
     Illuminate\View\ViewServiceProvider::class,

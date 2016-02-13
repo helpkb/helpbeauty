@@ -72,7 +72,7 @@ class PostController extends Controller
     $post = Post::findOrFail($id);
     $post->fill($request->postFillData());
     $post->save();
-    $post->syncTags($request->get('tags', []));
+    //$post->syncTags($request->get('tags', []));
 
     if ($request->action === 'continue') {
       return redirect()

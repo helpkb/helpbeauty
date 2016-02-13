@@ -1,124 +1,109 @@
 @extends('admin.layouts.admin_template')
 
-@section('content-header')
-    <h1>
-        {{ trans('page::pages.title.edit page') }}
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ URL::route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li><a href="{{ URL::route('admin.page.page.index') }}">{{ trans('page::pages.title.pages') }}</a></li>
-        <li class="active">{{ trans('page::pages.title.edit page') }}</li>
-    </ol>
-@stop
-
 @section('styles')
-    {!! Theme::script('js/vendor/ckeditor/ckeditor.js') !!}
-    <style>
-        .checkbox label {
-            padding-left: 0;
-        }
-    </style>
+    <link href="/assets/selectize/css/selectize.css" rel="stylesheet">
+    <link href="/assets/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
 @stop
 
 @section('content')
-    {!! Form::open(['route' => ['admin.page.page.update', $page->id], 'method' => 'put']) !!}
-    <div class="row">
-        <div class="col-md-10">
-            <div class="nav-tabs-custom">
-                @include('partials.form-tab-headers', ['fields' => ['title', 'body']])
-                <div class="tab-content">
-                    <?php $i = 0; ?>
-                    <?php foreach (LaravelLocalization::getSupportedLocales() as $locale => $language): ?>
-                    <?php ++$i; ?>
-                    <div class="tab-pane {{ App::getLocale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                        @include('page::admin.partials.edit-fields')
-                    </div>
-                    <?php endforeach; ?>
-                    <?php if (config('asgard.page.config.partials.normal.edit') !== []): ?>
-                        <?php foreach (config('asgard.page.config.partials.normal.edit') as $partial): ?>
-                            @include($partial)
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+    <div class="container-fluid">
+        <div class="row page-title-row">
+            <div class="col-md-12">
+                <h3>Posts
+                    <small>&raquo; Edit Page</small>
+                </h3>
+            </div>
+        </div>
 
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                        <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>
-                        <a class="btn btn-danger pull-right btn-flat" href="{{ URL::route('admin.page.page.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Page Edit Form</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        @include('admin.partials.errors')
+                        @include('admin.partials.success')
+
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{ route('admin.page.update', $id) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_method" value="PUT">
+
+                            @include('admin.page._form')
+
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="col-md-10 col-md-offset-2">
+                                        <button type="submit" class="btn btn-success btn-lg"
+                                                name="action" value="finished">
+                                            <i class="fa fa-floppy-o"></i>
+                                            Save New Page
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-lg"
+                                                data-toggle="modal" data-target="#modal-delete">
+                                            <i class="fa fa-times-circle"></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
-            </div> {{-- end nav-tabs-custom --}}
+            </div>
         </div>
-        <div class="col-md-2">
-            <div class="box box-primary">
-                <div class="box-body">
-                    <div class="checkbox{{ $errors->has('is_home') ? ' has-error' : '' }}">
-                        <label for="is_home">
-                            <input id="is_home"
-                                   name="is_home"
-                                   type="checkbox"
-                                   class="flat-blue"
-                                    {{ isset($page->is_home) && (bool)$page->is_home == true ? 'checked' : '' }}
-                                   value="1" />
-                            {{ trans('page::pages.form.is homepage') }}
-                            {!! $errors->first('is_home', '<span class="help-block">:message</span>') !!}
-                        </label>
+
+        {{-- Confirm Delete --}}
+        <div class="modal fade" id="modal-delete" tabIndex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">Please Confirm</h4>
                     </div>
-                    <hr/>
-                    <div class='form-group{{ $errors->has("template") ? ' has-error' : '' }}'>
-                        {!! Form::label("template", trans('page::pages.form.template')) !!}
-                        {!! Form::select("template", $all_templates, old("template", $page->template), ['class' => "form-control", 'placeholder' => trans('page::pages.form.template')]) !!}
-                        {!! $errors->first("template", '<span class="help-block">:message</span>') !!}
+                    <div class="modal-body">
+                        <p class="lead">
+                            <i class="fa fa-question-circle fa-lg"></i> &nbsp;
+                            Are you sure you want to delete this page?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" action="{{ route('admin.page.destroy', $id) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-times-circle"></i> Yes
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {!! Form::close() !!}
-@stop
-
-@section('footer')
-    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
-@stop
-@section('shortcuts')
-    <dl class="dl-horizontal">
-        <dt><code>b</code></dt>
-        <dd>{{ trans('page::pages.navigation.back to index') }}</dd>
-    </dl>
 @stop
 
 @section('scripts')
-    <script type="text/javascript">
-        $(function() {
-           /* CKEDITOR.replaceAll(function( textarea, config ) {
-                if (!$(textarea).hasClass('ckeditor')) {
-                    return false;
-                }
-                config.language = '<?php echo App::getLocale() ?>';
-            } );*/
-        });
-    </script>
+    <link rel="stylesheet" type="text/css"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/css/bootstrap-markdown.min.css">
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.8.0/js/bootstrap-markdown.min.js"></script>
+    <script src="/assets/slugify/speakingurl.min.js"></script>
+    <script src="/assets/slugify/slugify.min.js"></script>
+    <script src="/assets/selectize/selectize.min.js"></script>
+    <script src="/assets/selectize/MySelectize.js"></script>
     <script>
-        $( document ).ready(function() {
-            $(document).keypressAction({
-                actions: [
-                    { key: 'b', route: "<?= route('admin.page.page.index') ?>" }
-                ]
-            });
-            $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
-                checkboxClass: 'icheckbox_flat-blue',
-                radioClass: 'iradio_flat-blue'
-            });
-
-            $('input[type="checkbox"]').on('ifChecked', function(){
-                $(this).parent().find('input[type=hidden]').remove();
-            });
-
-            $('input[type="checkbox"]').on('ifUnchecked', function(){
-                var name = $(this).attr('name'),
-                    input = '<input type="hidden" name="' + name + '" value="0" />';
-                $(this).parent().append(input);
-            });
+        $(function () {
+            $('#slug-target').slugify('#slug-source'); // Type as you slug
         });
     </script>
 @stop

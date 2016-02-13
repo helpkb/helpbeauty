@@ -8,7 +8,7 @@ use App\Services\Markdowner;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model implements SluggableInterface
+class Page extends Model implements SluggableInterface
 {
 
   use SluggableTrait;
@@ -18,7 +18,7 @@ class Post extends Model implements SluggableInterface
     'save_to'    => 'slug',
   ];
 
-  protected $dates = ['published_at'];
+
   protected $fillable = [
     'title', 'content_raw'
   ];
@@ -30,7 +30,7 @@ class Post extends Model implements SluggableInterface
    */
   public function tags()
   {
-    return $this->belongsToMany('App\Tag', 'post_tag_pivot');
+    return $this->belongsToMany('App\Tag', 'page_tag_pivot');
   }
 
   /**
@@ -98,22 +98,6 @@ class Post extends Model implements SluggableInterface
   }
 
   /**
-   * Return the date portion of published_at
-   */
-  public function getPublishDateAttribute($value)
-  {
-    return $this->published_at->format('M-j-Y');
-  }
-
-  /**
-   * Return the time portion of published_at
-   */
-  public function getPublishTimeAttribute($value)
-  {
-    return $this->published_at->format('g:i A');
-  }
-
-  /**
    * Alias for content_raw
    */
   public function getContentAttribute($value)
@@ -122,51 +106,15 @@ class Post extends Model implements SluggableInterface
   }
 
   /**
-   * Return URL to post
-   *
-   * @param Tag $tag
-   * @return string
-   */
-  public function url(Tag $tag = null)
-  {
-    $url = url('blog/' . $this->slug);
-    if ($tag) {
-      $url .= '?tag=' . urlencode($tag->tag);
-    }
-
-    return $url;
-  }
-
-  /**
-   * Return array of tag links
-   *
-   * @param string $base
-   * @return array
-   */
-  public function tagLinks($base = '/blog?tag=%TAG%')
-  {
-    $tags = $this->tags()->lists('tag');
-    $return = [];
-    foreach ($tags as $tag) {
-      $url = str_replace('%TAG%', urlencode($tag), $base);
-      $return[] = '<a href="' . $url . '">' . e($tag) . '</a>';
-    }
-    return $return;
-  }
-
-  /**
    * Return next post after this one or null
    *
    * @param Tag $tag
    * @return Post
    */
-  public function newerPost(Tag $tag = null)
+  public function newerPage(Tag $tag = null)
   {
     $query =
-      static::where('published_at', '>', $this->published_at)
-        ->where('published_at', '<=', Carbon::now())
-        ->where('is_draft', 0)
-        ->orderBy('published_at', 'asc');
+      static::where('id', '>', $this->id)->orderBy('id', 'asc');
     if ($tag) {
       $query = $query->whereHas('tags', function ($q) use ($tag) {
         $q->where('tag', '=', $tag->tag);
@@ -182,12 +130,10 @@ class Post extends Model implements SluggableInterface
    * @param Tag $tag
    * @return Post
    */
-  public function olderPost(Tag $tag = null)
+  public function olderPage(Tag $tag = null)
   {
     $query =
-      static::where('published_at', '<', $this->published_at)
-        ->where('is_draft', 0)
-        ->orderBy('published_at', 'desc');
+      static::where('id', '<', $this->id)->orderBy('id', 'desc');
     if ($tag) {
       $query = $query->whereHas('tags', function ($q) use ($tag) {
         $q->where('tag', '=', $tag->tag);

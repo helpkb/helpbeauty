@@ -2,17 +2,27 @@
 namespace App;
 
 
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
 use Baum\Node;
 use Laracasts\Presenter\PresentableTrait;
 use App\Presenters\CategoryPresenter;
 /**
  * Category
  */
-class Category extends Node
+class Category extends Node implements SluggableInterface
 {
 
   use PresentableTrait;
   protected $presenter = CategoryPresenter::class;
+
+
+  use SluggableTrait;
+
+  protected $sluggable = [
+    'build_from' => 'name',
+    'save_to'    => 'slug',
+  ];
 
   /**
    * Table name.

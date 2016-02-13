@@ -6,7 +6,7 @@
       </label>
       <div class="col-md-10">
         <input type="text" class="form-control" name="name" autofocus
-               id="name" value="{{ $name }}">
+               id="slug-source" value="{{ $name }}">
       </div>
     </div>
     <div class="form-group">
@@ -15,7 +15,7 @@
       </label>
       <div class="col-md-10">
         <input type="text" class="form-control" name="slug"
-               id="slug" value="{{ $slug }}">
+               id="slug-target" value="{{ $slug }}">
       </div>
     </div>
   </div>
