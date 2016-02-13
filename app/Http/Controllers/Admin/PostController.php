@@ -41,7 +41,7 @@ class PostController extends Controller
   {
     //$post = Post::create($request->postFillData());
     Post::create($request->all());
-    $post->syncTags($request->get('tags', []));
+    Post::syncTags($request->get('tags', []));
 
     return redirect()
       ->route('admin.post.index')

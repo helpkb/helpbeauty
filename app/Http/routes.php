@@ -1,22 +1,25 @@
 <?php
-
-
 // Blog pages
 
-get('/', function () {
+Route::get('/', function () {
   return redirect('/blog');
 });
 
+Route::get('blog', [
+  'as' => 'blog.index', 'uses' => 'BlogController@index'
+]);
 
-get('blog', 'BlogController@index');
-get('{slug}', 'BlogController@showPost');
+Route::get('{slug}', [
+  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
+]);
+
 
 $router->get('contact', 'ContactController@showForm');
 Route::post('contact', 'ContactController@sendContactInfo');
 
 
-get('rss', 'BlogController@rss');
-get('sitemap.xml', 'BlogController@siteMap');
+Route::get('rss', 'BlogController@rss');
+Route::get('sitemap.xml', 'BlogController@siteMap');
 
 // Admin area
 /*
@@ -30,7 +33,7 @@ Route::get('admin', function () {
 
 
 $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-  //get('admin/', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
+  Route::get('admin/', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
   /*
 get('roles', ['as' => 'admin.user.role.index', 'uses' => 'RolesController@index']);
   get('roles/create', ['as' => 'admin.user.role.create', 'uses' => 'RolesController@create']);
@@ -39,35 +42,35 @@ get('roles', ['as' => 'admin.user.role.index', 'uses' => 'RolesController@index'
   put('roles/{roles}/edit', ['as' => 'admin.user.role.update', 'uses' => 'RolesController@update']);
 */
 
-  get('posts', ['as' => 'admin.post.index', 'uses' => 'PostController@index']);
-  get('post/create', ['as' => 'admin.post.create', 'uses' => 'PostController@create']);
-  post('posts', ['as' => 'admin.post.store', 'uses' => 'PostController@store']);
-  get('post/{post}/edit', ['as' => 'admin.post.edit', 'uses' => 'PostController@edit']);
-  put('posts/{post}', ['as' => 'admin.post.update', 'uses' => 'PostController@update']);
-  delete('posts/{post}', ['as' => 'admin.post.destroy', 'uses' => 'PostController@destroy']);
+  Route::get('posts', ['as' => 'admin.post.index', 'uses' => 'PostController@index']);
+  Route::get('post/create', ['as' => 'admin.post.create', 'uses' => 'PostController@create']);
+  Route::post('posts', ['as' => 'admin.post.store', 'uses' => 'PostController@store']);
+  Route::get('post/{post}/edit', ['as' => 'admin.post.edit', 'uses' => 'PostController@edit']);
+  Route::put('posts/{post}', ['as' => 'admin.post.update', 'uses' => 'PostController@update']);
+  Route::delete('posts/{post}', ['as' => 'admin.post.destroy', 'uses' => 'PostController@destroy']);
 
 
-  get('categories', ['as' => 'admin.category.index', 'uses' => 'CategoryController@index']);
-  get('category/create', ['as' => 'admin.category.create', 'uses' => 'CategoryController@create']);
-  post('category', ['as' => 'admin.category.store', 'uses' => 'CategoryController@store']);
-  get('category/{category}/edit', ['as' => 'admin.category.edit', 'uses' => 'CategoryController@edit']);
-  put('category/{category}', ['as' => 'admin.category.update', 'uses' => 'CategoryController@update']);
-  delete('category/{category}', ['as' => 'admin.category.destroy', 'uses' => 'CategoryController@destroy']);
+  Route::get('categories', ['as' => 'admin.category.index', 'uses' => 'CategoryController@index']);
+  Route::get('category/create', ['as' => 'admin.category.create', 'uses' => 'CategoryController@create']);
+  Route::post('category', ['as' => 'admin.category.store', 'uses' => 'CategoryController@store']);
+  Route::get('category/{category}/edit', ['as' => 'admin.category.edit', 'uses' => 'CategoryController@edit']);
+  Route::put('category/{category}', ['as' => 'admin.category.update', 'uses' => 'CategoryController@update']);
+  Route::delete('category/{category}', ['as' => 'admin.category.destroy', 'uses' => 'CategoryController@destroy']);
 
-  get('tags', ['as' => 'admin.tag.index', 'uses' => 'TagController@index']);
-  get('tags/create', ['as' => 'admin.tag.create', 'uses' => 'TagController@create']);
-  post('tags', ['as' => 'admin.tag.store', 'uses' => 'TagController@store']);
-  get('tags/{tag}/edit', ['as' => 'admin.tag.edit', 'uses' => 'TagController@edit']);
-  put('tags/{tag}', ['as' => 'admin.tag.update', 'uses' => 'TagController@update']);
-  delete('tags/{tag}', ['as' => 'admin.tag.destroy', 'uses' => 'TagController@destroy']);
+  Route::get('tags', ['as' => 'admin.tag.index', 'uses' => 'TagController@index']);
+  Route::get('tags/create', ['as' => 'admin.tag.create', 'uses' => 'TagController@create']);
+  Route::post('tags', ['as' => 'admin.tag.store', 'uses' => 'TagController@store']);
+  Route::get('tags/{tag}/edit', ['as' => 'admin.tag.edit', 'uses' => 'TagController@edit']);
+  Route::put('tags/{tag}', ['as' => 'admin.tag.update', 'uses' => 'TagController@update']);
+  Route::delete('tags/{tag}', ['as' => 'admin.tag.destroy', 'uses' => 'TagController@destroy']);
 
   //resource('admin/tag', 'TagController', ['except' => 'show']);
 
-  get('admin/upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
-  post('admin/upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@uploadFile']);
-  delete('admin/upload/file', ['as' => 'upload.delete', 'uses' => 'UploadController@deleteFile']);
-  post('admin/upload/folder', ['as' => 'upload.folder', 'uses' => 'UploadController@createFolder']);
-  delete('admin/upload/folder', ['as' => 'upload.deletefolder', 'uses' => 'UploadController@deleteFolder']);
+  Route::get('admin/upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
+  Route::post('admin/upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@uploadFile']);
+  Route::delete('admin/upload/file', ['as' => 'upload.delete', 'uses' => 'UploadController@deleteFile']);
+  Route::post('admin/upload/folder', ['as' => 'upload.folder', 'uses' => 'UploadController@createFolder']);
+  Route::delete('admin/upload/folder', ['as' => 'upload.deletefolder', 'uses' => 'UploadController@deleteFolder']);
 });
 
 

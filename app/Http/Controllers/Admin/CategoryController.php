@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Jobs\CategoryFormFields;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,7 @@ class CategoryController extends Controller
   {
     $categories = Category::all();
 
-    return view('admin.categories.index', compact('categories'));
+    return view('admin.category.index', compact('categories'));
   }
 
   /**
@@ -30,7 +31,8 @@ class CategoryController extends Controller
    */
   public function create()
   {
-    return view('admin.category.create');
+    $data = $this->dispatch(new CategoryFormFields());
+    return view('admin.category.create', $data);
   }
 
   /**
@@ -41,11 +43,23 @@ class CategoryController extends Controller
    */
   public function store(StoreCategoryRequest $request)
   {
-    $this->category->create($request->all());
+    /*
+        //$post = Post::create($request->postFillData());
+        Post::create($request->all());
+        $post->syncTags($request->get('tags', []));
 
-    flash('messages.category created');
+        return redirect()
+          ->route('admin.post.index')
+          ->withSuccess('New Post Successfully Created.');
+     *
+     **/
 
-    return redirect()->route('admin.category.index');
+
+    Category::create($request->all());
+
+    //flash('messages.category created');
+
+    return redirect()->route('admin.category.index')->withSuccess('New Category Successfully Created.');
   }
 
   /**
