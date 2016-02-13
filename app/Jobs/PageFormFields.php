@@ -5,83 +5,92 @@ namespace App\Jobs;
 use App\Post;
 use App\Tag;
 use Carbon\Carbon;
+use League\CommonMark\Converter;
+use League\HTMLToMarkdown\HtmlConverter;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 class PageFormFields extends Job implements SelfHandling
 {
-    /**
-     * The id (if any) of the Post row
-     *
-     * @var integer
-     */
-    protected $id;
+  /**
+   * The id (if any) of the Post row
+   *
+   * @var integer
+   */
+  protected $id;
 
-    /**
-     * List of fields and default value for each field
-     *
-     * @var array
-     */
-    protected $fieldList = [
-        'title' => '',
-        'slug' => '',
-        'content_raw' => '',
-        'content_html' => '',
-        'tags' => [],
-    ];
+  /**
+   * List of fields and default value for each field
+   *
+   * @var array
+   */
+  protected $fieldList = [
+    'title' => '',
+    'slug' => '',
+    'content_raw' => '',
+    'content_html' => '',
+    'tags' => [],
+  ];
 
-    /**
-     * Create a new command instance.
-     *
-     * @param integer $id
-     */
-    public function __construct($id = null)
-    {
-        $this->id = $id;
+  /**
+   * Create a new command instance.
+   *
+   * @param integer $id
+   */
+  public function __construct($id = null, Converter $converter)
+  {
+    $this->id = $id;
+    $this->converter = $converter;
+  }
+
+  /**
+   * Execute the command.
+   *
+   * @return array of fieldnames => values
+   */
+  public function handle()
+  {
+    $fields = $this->fieldList;
+
+    if ($this->id) {
+      $fields = $this->fieldsFromModel($this->id, $fields);
     }
 
-    /**
-     * Execute the command.
-     *
-     * @return array of fieldnames => values
-     */
-    public function handle()
-    {
-        $fields = $this->fieldList;
-
-        if ($this->id) {
-            $fields = $this->fieldsFromModel($this->id, $fields);
-        }
-
-        foreach ($fields as $fieldName => $fieldValue) {
-            $fields[$fieldName] = old($fieldName, $fieldValue);
-        }
-
-        return array_merge(
-            $fields,
-            ['allTags' => Tag::lists('tag')->all()]
-        );
+    foreach ($fields as $fieldName => $fieldValue) {
+      $fields[$fieldName] = old($fieldName, $fieldValue);
     }
 
-    /**
-     * Return the field values from the model
-     *
-     * @param integer $id
-     * @param array $fields
-     * @return array
-     */
-    protected function fieldsFromModel($id, array $fields)
-    {
-        $post = Post::findOrFail($id);
+    return array_merge(
+      $fields,
+      ['allTags' => Tag::lists('tag')->all()]
+    );
+  }
 
-        $fieldNames = array_keys(array_except($fields, ['tags']));
+  /**
+   * Return the field values from the model
+   *
+   * @param integer $id
+   * @param array   $fields
+   * @return array
+   */
+  protected function fieldsFromModel($id, array $fields)
+  {
+    $page = Page::findOrFail($id);
 
-        $fields = ['id' => $id];
-        foreach ($fieldNames as $field) {
-            $fields[$field] = $post->{$field};
-        }
+    $fieldNames = array_keys(array_except($fields, ['tags']));
 
-        $fields['tags'] = $post->tags()->lists('tag')->all();
+    $htmlconverter = new HtmlConverter(array('strip_tags' => true));
 
-        return $fields;
+    $fields = ['id' => $id];
+    foreach ($fieldNames as $field) {
+      if ($field == "content_raw") {
+        $fields[$field] = $htmlconverter->convert($page->{$field});
+      } else {
+        $fields[$field] = $page->{$field};
+      }
     }
+
+    $fields['tags'] = $page->tags()->lists('tag')->all();
+
+    return $fields;
+  }
 }

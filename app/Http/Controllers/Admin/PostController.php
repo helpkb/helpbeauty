@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\PostFormFields;
 use App\Http\Requests;
-use App\Http\Requests\PostCreateRequest;
-use App\Http\Requests\PostUpdateRequest;
+use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
+
+use League\CommonMark\Converter;
+use League\HTMLToMarkdown\HtmlConverter;
+
 use App\Post;
 
 class PostController extends Controller
 {
-
-
   /**
    * Display a listing of the posts.
    */
@@ -37,10 +39,18 @@ class PostController extends Controller
    *
    * @param PostCreateRequest $request
    */
-  public function store(PostCreateRequest $request)
+  public function store(StorePostRequest $request)
   {
     //$post = Post::create($request->postFillData());
-    Post::create($request->all());
+    /*
+        $sl = $request->input('slug');
+        $slug = str_slug($sl, "-");
+        $category->slug = $slug;
+        // send success message to index page
+        try{
+          $category->fill($request->except('slug'))->save();
+     **/
+    $post = Post::create($request->postFillData()->except('slug'));
     Post::syncTags($request->get('tags', []));
 
     return redirect()
@@ -54,9 +64,9 @@ class PostController extends Controller
    * @param  int $id
    * @return Response
    */
-  public function edit($id)
+  public function edit($id, Converter $converter)
   {
-    $data = $this->dispatch(new PostFormFields($id));
+    $data = $this->dispatch(new PostFormFields($id, $converter));
 
     return view('admin.post.edit', $data);
   }
@@ -64,25 +74,25 @@ class PostController extends Controller
   /**
    * Update the Post
    *
-   * @param PostUpdateRequest $request
+   * @param UpdatePostRequest $request
    * @param int               $id
    */
-  public function update(PostUpdateRequest $request, $id)
+  public function update(UpdatePostRequest $request, $id)
   {
     $post = Post::findOrFail($id);
+    /*
+        $sl = $request->input('slug');
+        $slug = str_slug($sl, "-");
+        $category->slug = $slug;
+        // send success message to index page
+        try{
+          $category->fill($request->except('slug'))->save();
+     **/
     $post->fill($request->postFillData());
     $post->save();
-    //$post->syncTags($request->get('tags', []));
+    $post->syncTags($request->get('tags', []));
 
-    if ($request->action === 'continue') {
-      return redirect()
-        ->back()
-        ->withSuccess('Post saved.');
-    }
-
-    return redirect()
-      ->route('admin.post.index')
-      ->withSuccess('Post saved.');
+    return redirect()->route('admin.post.index')->withSuccess('Post saved.');
   }
 
   /**
@@ -97,8 +107,6 @@ class PostController extends Controller
     $post->tags()->detach();
     $post->delete();
 
-    return redirect()
-      ->route('admin.post.index')
-      ->withSuccess('Post deleted.');
+    return redirect()->route('admin.post.index')->withSuccess('Post deleted.');
   }
 }

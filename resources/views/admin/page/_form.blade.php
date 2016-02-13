@@ -49,7 +49,7 @@
         Tags
       </label>
       <div class="col-md-8">
-        <select name="tags[]" id="tags" class="input-tags form-control" multiple>
+        <select name="tags[]" id="tags" class="input-tags form-control" multiple size="15">
           @foreach ($allTags as $tag)
             <option @if (in_array($tag, $tags)) selected @endif
             value="{{ $tag }}">

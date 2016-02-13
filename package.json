@@ -5,6 +5,7 @@
     "laravel-elixir": "^2.0.0"
   },
   "dependencies": {
-    "gulp-rename": "^1.2.2"
+    "gulp-rename": "^1.2.2",
+    "remarkable": "^1.6.2"
   }
 }

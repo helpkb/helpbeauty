@@ -3,23 +3,18 @@
 namespace App\Http\Requests;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
+use League\CommonMark\Converter;
+use League\HTMLToMarkdown\HtmlConverter;
 
 
-class StorePageRequest extends Request
+class StorePostRequest extends Request
 {
-  /**
-   * Get the validation rules that apply to the request.
-   *
-   * @return array
-   */
-  public function rules()
-  {
-    return [
-      // 'slug[en]' => 'required'
-    ];
-  }
+  protected $converter;
 
+  public function __construct(Converter $converter)
+  {
+    $this->converter = $converter;
+  }
 
   /**
    * Determine if the user is authorized to make this request.
@@ -29,18 +24,25 @@ class StorePageRequest extends Request
     return true;
   }
 
-  public function messages()
+  /**
+   * Get the validation rules that apply to the request.
+   *
+   * @return array
+   */
+  public function rules()
   {
-    return [];
+    return [
+    ];
   }
-
-
 
   /**
    * Return the fields and values to create a new post from
    */
-  public function pageFillData()
+  public function postFillData()
   {
+    $published_at = new Carbon(
+      $this->publish_date . ' ' . $this->publish_time
+    );
     $configuration = ['HTML.Allowed' => 'a[href],ul,ol,li'];
     $input = $this->get('content_raw');
     $htmlconverter = new HtmlConverter(array('strip_tags' => true));
@@ -51,7 +53,8 @@ class StorePageRequest extends Request
     return [
       'title' => $this->title,
       'slug' => $this->slug,
-      'content_raw' => $this->get('content_raw'),
+      'content_raw' => $content_raw,
+      'content_html' => $content_html
     ];
   }
 }

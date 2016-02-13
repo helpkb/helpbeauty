@@ -10,21 +10,21 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="subtitle" class="col-md-2 control-label">
-        Subtitle
+      <label for="slug" class="col-md-2 control-label">
+        Slug
       </label>
       <div class="col-md-10">
-        <input type="text" class="form-control" name="subtitle"
-               id="slug-target" value="{{ $subtitle }}">
+        <input type="text" class="form-control" name="slug"
+               id="slug-target" value="{{ $slug }}">
       </div>
     </div>
     <div class="form-group">
-      <label for="content" class="col-md-2 control-label">
+      <label for="content_raw" class="col-md-2 control-label">
         Content
       </label>
       <div class="col-md-10">
         <textarea name="content_raw" class="form-control" data-provide="markdown" placeholder="Voer hier Markdown HTML in" rows="14"
-                  id="content">{{ $content }}</textarea>
+                  id="content_raw">{{ $content_raw }}</textarea>
       </div>
     </div>
   </div>
@@ -44,22 +44,11 @@
     </div>
 
     <div class="form-group">
-      <div class="col-md-8 col-md-offset-3">
-        <div class="checkbox">
-          <label>
-            <input {{ checked($is_draft) }} type="checkbox" name="is_draft">
-            Draft?
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
       <label for="tags" class="col-md-3 control-label">
         Tags
       </label>
       <div class="col-md-8">
-        <select name="tags[]" id="tags" class="input-tags form-control" multiple>
+        <select name="tags[]" id="tags" class="input-tags form-control" multiple size="15">
           @foreach ($allTags as $tag)
             <option @if (in_array($tag, $tags)) selected @endif
             value="{{ $tag }}">

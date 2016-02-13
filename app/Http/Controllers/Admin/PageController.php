@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Jobs\PageFormFields;
 use App\Http\Requests;
 use App\Http\Requests\StorePageRequest;
-use App\Http\Requests\PageUpdateRequest;
+use App\Http\Requests\UpdatePageRequest;
 use App\Http\Controllers\Controller;
 use App\Page;
 use App\Category;
@@ -38,7 +38,17 @@ class PageController extends Controller
    */
   public function store(StorePageRequest $request)
   {
-    $page = Page::create($request->all());
+    /*
+        $sl = $request->input('slug');
+        $slug = str_slug($sl, "-");
+        $category->slug = $slug;
+        // send success message to index page
+        try{
+          $category->fill($request->except('slug'))->save();
+     **/
+    $page = Page::create($request->pageFillData()->except('slug'));
+    $page->slug = $request->slug;
+    dd($request->slug);
     $page->syncTags($request->get('tags', []));
 
     return redirect()->route('admin.page.index')->withSuccess('New Page Successfully Created.');
@@ -64,8 +74,16 @@ class PageController extends Controller
    */
   public function update(PageUpdateRequest $request, $id)
   {
+    /*
+        $sl = $request->input('slug');
+        $slug = str_slug($sl, "-");
+        $category->slug = $slug;
+        // send success message to index page
+        try{
+          $category->fill($request->except('slug'))->save();
+     **/
     $page = Page::findOrFail($id);
-    $page->fill($request->pageFillData());
+    $page->fill($request->all());
     $page->save();
     $page->syncTags($request->get('tags', []));
     return redirect()->route('admin.page.index')->withSuccess('Page saved.');

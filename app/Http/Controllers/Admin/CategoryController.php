@@ -52,6 +52,14 @@ class CategoryController extends Controller
    */
   public function store(StoreCategoryRequest $request)
   {
+    /*
+        $sl = $request->input('slug');
+        $slug = str_slug($sl, "-");
+        $category->slug = $slug;
+        // send success message to index page
+        try{
+          $category->fill($request->except('slug'))->save();
+     **/
     Category::create($request->all());
     return redirect()->route('admin.category.index')->withSuccess('New Category Successfully Created.');
   }
