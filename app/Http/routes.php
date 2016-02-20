@@ -28,7 +28,7 @@ Route::get('admin', function () {
 
 
 $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-  Route::get('admin/', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
+  Route::get('dashboard', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
 
   Route::get('categories', ['as' => 'admin.category.index', 'uses' => 'CategoryController@index']);
   Route::get('category/create', ['as' => 'admin.category.create', 'uses' => 'CategoryController@create']);
