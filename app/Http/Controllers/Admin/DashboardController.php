@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use App\Http\Controllers\Controller;
 
-class DashboardController extends AdminBaseController
+class DashboardController extends Controller
 {
   /**
    * @var WidgetRepository
