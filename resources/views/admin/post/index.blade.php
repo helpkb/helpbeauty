@@ -57,8 +57,9 @@
                     </tr>
                     </tfoot>
                 </table>
+            <!-- /.box-body -->
             </div>
-        </div>
+        <!-- /.box -->
 
     </div>
 @stop
