@@ -1,8 +1,9 @@
 @extends('admin.layouts.admin_template')
 
 @section('styles')
-    <link href="/assets/selectize/css/selectize.css" rel="stylesheet">
-    <link href="/assets/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/selectize/css/_normalize.css">
+    <link rel="stylesheet" href="/assets/selectize/css/_stylesheet.css">
+    <link rel="stylesheet" href="/assets/selectize/css/selectize.css">
 @stop
 
 @section('content')
@@ -106,6 +107,11 @@
     <script>
         $(function () {
             $('#slug-target').slugify('#slug-source'); // Type as you slug
+        });
+        $('.input-tags').MySelectize({
+            'findUri' : '<?= route('api.tag.findByName') ?>/',
+            'createUri' : '<?= route('api.tag.store') ?>',
+            'token': '<?= csrf_token() ?>'
         });
     </script>
 @stop

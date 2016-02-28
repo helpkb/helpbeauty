@@ -58,12 +58,20 @@ $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'a
   Route::put('tags/{tag}', ['as' => 'admin.tag.update', 'uses' => 'TagController@update']);
   Route::delete('tags/{tag}', ['as' => 'admin.tag.destroy', 'uses' => 'TagController@destroy']);
 
+	Route::get('tag/findByName/{name?}', ['as' => 'api.tag.findByName', 'uses' => 'TagController@findByName']);
+	Route::post('tags', ['as' => 'api.tag.store', 'uses' => 'TagController@store']);
+
   Route::get('upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
   Route::post('upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@uploadFile']);
   Route::delete('upload/file', ['as' => 'upload.delete', 'uses' => 'UploadController@deleteFile']);
   Route::post('upload/folder', ['as' => 'upload.folder', 'uses' => 'UploadController@createFolder']);
   Route::delete('upload/folder', ['as' => 'upload.deletefolder', 'uses' => 'UploadController@deleteFolder']);
 });
+
+
+
+
+
 
 // Registration routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');

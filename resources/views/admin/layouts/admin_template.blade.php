@@ -16,6 +16,11 @@
     <link href="{{ asset("/admin-lte/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset("/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css"/>
 
+
+    <link rel="stylesheet" href="/assets/selectize/css/_normalize.css">
+    <link rel="stylesheet" href="/assets/selectize/css/_stylesheet.css">
+    <link rel="stylesheet" href="/assets/selectize/css/selectize.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "gulp-rename": "^1.2.2",
-    "remarkable": "^1.6.2"
+    "remarkable": "^1.6.2",
+    "selectize": "^0.12.1"
   }
 }
