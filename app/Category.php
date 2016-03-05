@@ -56,8 +56,28 @@ class Category extends Node implements SluggableInterface
   }
 
   public function fewPosts() {
-    return $this->posts()->take(5);
+    return $this->posts()->take(1);
   }
+
+
+  public function countAllPostsfromSubCat($categoryIds) {
+    $allmyposts = Category::join('cat_post', 'cat_post.category_id', '=', 'categories.id')
+                            ->join('posts', 'cat_post.post_id', '=', 'posts.id')
+                            ->whereIn('cat_post.category_id', $categoryIds)
+                            ->orderBy('name', 'asc')
+                            ->pluck('posts.title');
+    return count($allmyposts);
+  }
+
+  public function getAllPostsfromSubCat($categoryIds) {
+    $allmyposts = Category::join('cat_post', 'cat_post.category_id', '=', 'categories.id')
+                            ->join('posts', 'cat_post.post_id', '=', 'posts.id')
+                            ->whereIn('cat_post.category_id', $categoryIds)
+                            ->orderBy('name', 'asc')
+                            ->limit(5)->get();
+    return $allmyposts;
+  }
+
 
 
 /*

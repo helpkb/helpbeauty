@@ -36,18 +36,8 @@ class BlogController extends Controller
 
   public function categoryList(Post $post, Category $category, CatPost $relation)
   {
-    //$posts = Post::orderBy('created_at', 'desc')->get();
-    //->with('posts')
-    //$categories = Category::with(['images','firstProducts'])->get();
-    /*
-    $users = App\User::with(['posts' => function ($query) {
-    $query->where('title', 'like', '%first%');
-    }])->get();
-    //->with('fewPosts')
-     **/
-    $categories = Category::orderBy('name', 'asc')->with('fewPosts')->get()->toHierarchy();
-    //dd($categories);
-    /* direct to view with $article_id */
+    //orderBy('name', 'asc')
+    $categories = Category::roots()->get();
     return view('blog.categoryList', compact('categories'));
 
   }

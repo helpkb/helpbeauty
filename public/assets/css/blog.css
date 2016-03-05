@@ -1834,8 +1834,9 @@ ol ol {
 }
 
 /* tekst */
-.small {
-  font-size: 12px;
+.smalltext {
+  font-size: 10px;
+  color: #000033;
 }
 
 .greytext {
@@ -4954,7 +4955,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eeeeee;
+  background-color: #dedede;
 }
 
 .nav > li.disabled > a {
