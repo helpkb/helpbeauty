@@ -38,8 +38,7 @@ class TagController extends Controller
   {
     $tags = Tag::all();
 
-    return view('admin.tag.index')
-      ->withTags($tags);
+    return view('admin.tag.index')->withTags($tags);
   }
 
   /**

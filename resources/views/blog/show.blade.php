@@ -12,9 +12,7 @@
                     <div class="post-heading">
                         <h1>{{ $post->title }}</h1>
 
-                        <h2 class="subheading">{{ $post->subtitle }}</h2>
             <span class="meta">
-              Posted on {{ $post->published_at->format('F j, Y') }}
                 @if ($post->tags->count())
                     in
                     {!! join(', ', $post->tagLinks()) !!}
@@ -26,6 +24,31 @@
         </div>
     </header>
 @stop
+
+
+
+
+
+
+
+
+
+@section('kb')
+    class = "active"
+@stop
+
+@section('breadcrumb')
+    <div class="site-hero clearfix">
+
+        <ol class="breadcrumb breadcrumb-custom">
+            <li class="text">Digitaal Kantoor:</li>
+            <li class="active">Categorieen Index</li>
+        </ol>
+    </div>
+@stop
+
+
+
 
 @section('content')
 

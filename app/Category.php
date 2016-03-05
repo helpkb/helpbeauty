@@ -4,9 +4,13 @@ namespace App;
 
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Kalnoy\Nestedset\NodeTrait;
 use Baum\Node;
+use App\Post;
 use Laracasts\Presenter\PresentableTrait;
 use App\Presenters\CategoryPresenter;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Category
  */
@@ -15,9 +19,24 @@ class Category extends Node implements SluggableInterface
 
   use PresentableTrait;
   protected $presenter = CategoryPresenter::class;
-
-
   use SluggableTrait;
+
+  // /**
+  //  * Column name for the left index.
+  //  *
+  //  * @var string
+  //  */
+  protected $leftColumn = '_lft';
+
+  // /**
+  //  * Column name for the right index.
+  //  *
+  //  * @var string
+  //  */
+  protected $rightColumn = '_rgt';
+
+
+
 
   protected $sluggable = [
     'build_from' => 'name',
@@ -33,10 +52,19 @@ class Category extends Node implements SluggableInterface
 
 
   public function posts() {
-    return $this->hasMany('Post', 'posts');
+    return $this->belongsToMany('\App\Post', 'cat_post');
+  }
+
+  public function fewPosts() {
+    return $this->posts()->take(5);
   }
 
 
+/*
+  public function products() {
+    return $this->belongsToMany('Product', 'products_categories');
+  }
+ **/
 
   /*
   public function products() {

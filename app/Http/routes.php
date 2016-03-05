@@ -1,12 +1,37 @@
 <?php
-// Blog pages
-
+// KB pages
+/*
 Route::get('/', function () {
-  return redirect('/blog');
+// Redirect = old
 });
+*/
+
+
+Route::get('article-list', ['as' => 'article-list', 'uses' => 'BlogController@articleList']);
+
+Route::get('/', [
+  'as' => 'category-list', 'uses' => 'BlogController@categoryList'
+]);
+
+Route::get('category-list/{id}', ['as' => 'categorylist', 'uses' => 'BlogController@getCategory']);
+
+
+
+/*
+Route::get('article-list', ['as' => 'article-list', 'uses' => 'Client\kb\UserController@getArticle']);
+Route::get('search', ['as' => 'search', 'uses' => 'Client\kb\UserController@search']);
+Route::get('show/{slug}', ['as' => 'show', 'uses' => 'Client\kb\UserController@show']);
+Route::get('category-list', ['as' => 'category-list', 'uses' => 'Client\kb\UserController@getCategoryList']);
+Route::get('category-list/{id}', ['as' => 'categorylist', 'uses' => 'Client\kb\UserController@getCategory']);
+*/
+
 
 Route::get('blog', [
   'as' => 'blog.index', 'uses' => 'BlogController@index'
+]);
+
+Route::get('show/{slug}', [
+  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
 ]);
 
 Route::get('{slug}', [

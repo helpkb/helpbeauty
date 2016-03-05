@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Jobs\BlogIndexData;
 use App\Http\Requests;
 use App\Post;
+use App\Category;
+use App\CatPost;
 use App\Services\RssFeed;
 use App\Services\SiteMap;
 use App\Tag;
@@ -31,10 +33,52 @@ class BlogController extends Controller
     return view('blog.index')->withPosts($posts);
   }
 
+
+  public function categoryList(Post $post, Category $category, CatPost $relation)
+  {
+    //$posts = Post::orderBy('created_at', 'desc')->get();
+    //->with('posts')
+    //$categories = Category::with(['images','firstProducts'])->get();
+    /*
+    $users = App\User::with(['posts' => function ($query) {
+    $query->where('title', 'like', '%first%');
+    }])->get();
+    //->with('fewPosts')
+     **/
+    $categories = Category::orderBy('name', 'asc')->with('fewPosts')->get()->toHierarchy();
+    //dd($categories);
+    /* direct to view with $article_id */
+    return view('blog.categoryList', compact('categories'));
+
+  }
+
+
+  /**
+   * Get excerpt from string
+   *
+   * @param String  $str       String to get an excerpt from
+   * @param Integer $startPos  Position int string to start excerpt from
+   * @param Integer $maxLength Maximum length the excerpt may be
+   * @return String excerpt
+   */
+  static function getExcerpt($str, $startPos = 0, $maxLength = 50)
+  {
+    if (strlen($str) > $maxLength) {
+      $excerpt = substr($str, $startPos, $maxLength - 3);
+      $lastSpace = strrpos($excerpt, ' ');
+      $excerpt = substr($excerpt, 0, $lastSpace);
+      $excerpt .= '...';
+    } else {
+      $excerpt = $str;
+    }
+
+    return $excerpt;
+  }
+
+
   public function showPost($slug, Request $request)
   {
     $post = Post::with('tags')->whereSlug($slug)->firstOrFail();
-
 
 
     $tag = $request->get('tag');
@@ -46,8 +90,6 @@ class BlogController extends Controller
   }
 
 
-
-
   public function showByTag($tag, Request $request)
   {
     $tag = $request->get('tag');
@@ -55,19 +97,16 @@ class BlogController extends Controller
     exit;
 
     $posts = Post::whereHas('tags', function ($q) use ($tag) {
-        $q->where('tag', '=', $tag->tag);
-      })
+      $q->where('tag', '=', $tag->tag);
+    })
       ->orderBy('published_at', 'asc');
     $posts->addQuery('tag', $tag->tag);
 
-print_r($posts);
-exit;
+    print_r($posts);
+    exit;
 
     return view('blog.index', compact('posts', 'tag'));
   }
-
-
-
 
 
   public function rss(RssFeed $feed)

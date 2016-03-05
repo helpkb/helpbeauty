@@ -1,4 +1,7 @@
-<?php namespace Modules\Blog\Presenters;
+<?php
+
+
+namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
 
@@ -12,7 +15,7 @@ class CategoryPresenter extends Presenter
   public function __construct($entity)
   {
     parent::__construct($entity);
-    $this->category = app('Modules\Blog\Repositories\CategoryRepository');
+    $this->category = app('Category');
   }
 
   function renderNode($node)

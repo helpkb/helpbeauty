@@ -33,6 +33,26 @@ class Post extends Model implements SluggableInterface
     return $this->belongsToMany('App\Tag', 'post_tag_pivot');
   }
 
+
+  public function categories() {
+    return $this->belongsToMany('\App\Category', 'cat_post');
+  }
+
+
+  public function scopeCategorized($query, Category $category=null) {
+    if ( is_null($category) ) return $query->with('categories');
+
+
+    //$node->descendants()->limitDepth(5)->get();
+    //$categoryIds = $category->getDescendantsAndSelf()->lists('id');
+    $categoryIds = $category->getDescendantsAndSelf()->pluck('id');
+
+    return $query->with('categories')
+      ->join('cat_post', 'cat_post.post_id', '=', 'posts.id')
+      ->whereIn('cat_post.category_id', $categoryIds);
+  }
+
+
   /**
    * Set the title attribute and automatically the slug
    *
