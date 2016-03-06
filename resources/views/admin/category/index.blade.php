@@ -41,7 +41,7 @@
                                    class="btn btn-xs btn-info">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
-                                <a href="{{ $category->slug }}"
+                                <a href="/category-list/{{ $category->slug }}"
                                    class="btn btn-xs btn-warning">
                                     <i class="fa fa-eye"></i> View
                                 </a>
@@ -64,11 +64,14 @@
     </div>
 @stop
 
+
 @section('scripts')
     <script>
         $(function () {
             $("#categories-table").DataTable({
-                order: [[0, "desc"]],
+                order: [[1, "asc"]],
+                "iDisplayLength": 25,
+                stateSave: true,
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             });
         });

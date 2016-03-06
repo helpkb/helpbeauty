@@ -5,7 +5,7 @@
       <a href="/admin/post">Posts</a>
     </li>
     <li @if (Request::is('admin/tag*')) class="active" @endif>
-      <a href="/admin/tag">Tags</a>
+      <a href="/admin/tags/">Tags</a>
     </li>
     <li @if (Request::is('admin/upload*')) class="active" @endif>
       <a href="/admin/upload">Uploads</a>

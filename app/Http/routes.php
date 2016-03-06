@@ -16,43 +16,9 @@ Route::get('/', [
 Route::get('category-list/{id}', ['as' => 'categorylist', 'uses' => 'BlogController@getCategory']);
 
 
-
-/*
-Route::get('article-list', ['as' => 'article-list', 'uses' => 'Client\kb\UserController@getArticle']);
-Route::get('search', ['as' => 'search', 'uses' => 'Client\kb\UserController@search']);
-Route::get('show/{slug}', ['as' => 'show', 'uses' => 'Client\kb\UserController@show']);
-Route::get('category-list', ['as' => 'category-list', 'uses' => 'Client\kb\UserController@getCategoryList']);
-Route::get('category-list/{id}', ['as' => 'categorylist', 'uses' => 'Client\kb\UserController@getCategory']);
-*/
-
-
-Route::get('blog', [
-  'as' => 'blog.index', 'uses' => 'BlogController@index'
-]);
-
-Route::get('show/{slug}', [
-  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
-]);
-
-Route::get('{slug}', [
-  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
-]);
-
-
-$router->get('contact', 'ContactController@showForm');
-Route::post('contact', 'ContactController@sendContactInfo');
-
-
-Route::get('rss', 'BlogController@rss');
-Route::get('sitemap.xml', 'BlogController@siteMap');
-
 // Admin area
-Route::get('admin', function () {
-  return view('admin/layouts/admin_template');
-});
-
-
 $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+  Route::get('/', ['as' => 'admin.post.index', 'uses' => 'PostController@index']);
   Route::get('dashboard', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
 
   Route::get('categories', ['as' => 'admin.category.index', 'uses' => 'CategoryController@index']);
@@ -98,6 +64,18 @@ $router->group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => 'a
 
 
 
+
+$router->get('contact', 'ContactController@showForm');
+Route::post('contact', 'ContactController@sendContactInfo');
+
+
+Route::get('rss', 'BlogController@rss');
+Route::get('sitemap.xml', 'BlogController@siteMap');
+
+
+
+
+
 // Registration routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
@@ -106,3 +84,35 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+/*
+Route::get('article-list', ['as' => 'article-list', 'uses' => 'Client\kb\UserController@getArticle']);
+Route::get('search', ['as' => 'search', 'uses' => 'Client\kb\UserController@search']);
+Route::get('show/{slug}', ['as' => 'show', 'uses' => 'Client\kb\UserController@show']);
+Route::get('category-list', ['as' => 'category-list', 'uses' => 'Client\kb\UserController@getCategoryList']);
+Route::get('category-list/{id}', ['as' => 'categorylist', 'uses' => 'Client\kb\UserController@getCategory']);
+*/
+
+
+Route::get('blog', [
+  'as' => 'blog.index', 'uses' => 'BlogController@index'
+]);
+
+
+
+
+
+Route::get('show/{slug}', [
+  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
+]);
+
+Route::get('{slug}', [
+  'as' => 'blog.slug', 'uses' => 'BlogController@showPost'
+]);
+
+
+
+
+
+
+

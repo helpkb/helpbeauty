@@ -41,7 +41,7 @@
                                    class="btn btn-xs btn-info">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
-                                <a href="{{ $post->slug }}"
+                                <a href="/show/{{ $post->slug }}"
                                    class="btn btn-xs btn-warning">
                                     <i class="fa fa-eye"></i> View
                                 </a>
@@ -60,7 +60,6 @@
             <!-- /.box-body -->
             </div>
         <!-- /.box -->
-
     </div>
 @stop
 
@@ -68,7 +67,9 @@
     <script>
         $(function () {
             $("#posts-table").DataTable({
-                order: [[0, "desc"]],
+                order: [[1, "asc"]],
+                "iDisplayLength": 25,
+                stateSave: true,
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             });
         });

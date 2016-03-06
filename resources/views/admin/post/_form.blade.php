@@ -35,12 +35,12 @@
     <div class="col-md-4">
 
         <div class="form-group">
-            <label for="module_id" class="col-md-3 control-label">
-                Module Name (Category)
+            <label for="category_id" class="col-md-3 control-label">
+                Categorie
             </label>
 
             <div class="col-md-8">
-                <select name="module_id" id="module" class="form-control">
+                <select name="category_id" id="categorie" class="form-control">
                     <?php //foreach ($categories as $category): ?>
                     <option value=""></option>
                     <?php //endforeach; ?>
@@ -54,38 +54,14 @@
             </label>
 
             <div class="col-md-8">
-
-                <div class="demo">
-                    <div class="control-group">
-                        <label for="input-tags">Tags:</label>
-                        <div class="default selectize-control multi" style="display: inline-block;">
-                            <select name="tags[]" id="tags" class="input-tags" multiple>
-                                <?php foreach ($tags()->get() as $tag): ?>
-                                <?php $tagName = $tag->name  ?>
-                                <option value="{{ $tag->id }}" selected>{{ $tagName }}</option>
-                                <?php endforeach; ?>
-                            </select>
-
-                            <div class="selectize-input items has-options has-items not-full">
-                                <div data-value="jQueryScript" class="item">jQueryScript</div>
-                                <div data-value=".net" class="item">.net</div>
-                                <input type="text" style="width: 40px; opacity: 1;"></div>
-                            <div class="selectize-dropdown" style="display: none;"></div>
-                        </div>
-                    </div>
-                </div>
-                <BR><BR><BR><BR><BR><BR>
-
-                <div class="nomore">
-                    <select name="tags[]" id="tags" class="input-tags form-control" multiple size="15">
-                        @foreach ($allTags as $tag)
-                            <option @if (in_array($tag, $tags)) selected @endif
-                            value="{{ $tag }}">
-                                {{ $tag }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                <select name="tags[]" id="tags" class="input-tags form-control" multiple size="15">
+                    @foreach ($allTags as $tag)
+                        <option @if (in_array($tag, $tags)) selected @endif
+                        value="{{ $tag }}">
+                            {{ $tag }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>

@@ -39,10 +39,15 @@
                                    class="btn btn-xs btn-info">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
-                                <a href="{{ $page->slug }}"
+                                <a href="/p/{{ $page->slug }}"
                                    class="btn btn-xs btn-warning">
                                     <i class="fa fa-eye"></i> View
                                 </a>
+                            </td>
+
+                            <td>
+                                <a href="{{ route('admin.page.edit', [$tag->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.page.destroy', [$tag->id]) }}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                     @endforeach
@@ -59,6 +64,10 @@
         </div>
 
     </div>
+@stop
+
+@section('footer')
+    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
 @stop
 
 @section('scripts')

@@ -19,7 +19,7 @@
             @include('admin.partials.errors')
 
             <form class="form-horizontal" role="form" method="POST"
-                  action="/admin/tag">
+                  action="/admin/tags/">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
               <div class="form-group">

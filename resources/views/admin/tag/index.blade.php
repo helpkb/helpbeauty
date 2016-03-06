@@ -33,11 +33,20 @@
                         <tr>
                             <td>{{ $tag->tag }}</td>
                             <td>
-                                <a href="/admin/tag/{{ $tag->id }}/edit"
+                                <a href="/admin/tags/{{ $tag->id }}/edit"
                                    class="btn btn-xs btn-info">
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
+                                <a href="/t/{{ $tag->tag }}"
+                                   class="btn btn-xs btn-warning">
+                                    <i class="fa fa-eye"></i> View
+                                </a>
                             </td>
+                            <td>
+                            <a href="{{ route('admin.tag.edit', [$tag->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                            <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.tag.destroy', [$tag->id]) }}"><i class="fa fa-trash"></i></button>
+                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -68,12 +77,14 @@
             $("#tags-table").DataTable({
                 "paginate": true,
                 "lengthChange": true,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 "filter": false,
                 "sort": false,
                 "info": true,
                 "autoWidth": true,
-                "order": [[0, "desc"]]
+                order: [[1, "asc"]],
+                "iDisplayLength": 25,
+                stateSave: true,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             });
         });
     </script>
