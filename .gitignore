@@ -4,3 +4,4 @@
 /storage
 composer.lock
 .idea
+auth.json
