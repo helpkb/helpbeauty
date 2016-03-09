@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\PageFormFields;
 use App\Http\Requests;
+
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Http\Controllers\Controller;
 use App\Page;
 use App\Category;
 use App\Tag;
+
+use League\CommonMark\Converter;
+use League\HTMLToMarkdown\HtmlConverter;
+
 
 class PageController extends Controller
 {
@@ -26,7 +31,7 @@ class PageController extends Controller
    */
   public function create()
   {
-    $data = $this->dispatch(new PageFormFields());
+    $data = $this->dispatch(new PageFormFields($id = null));
 
     return view('admin.page.create', $data);
   }
@@ -60,9 +65,9 @@ class PageController extends Controller
    * @param  int $id
    * @return Response
    */
-  public function edit($id)
+  public function edit($id, Converter $converter)
   {
-    $data = $this->dispatch(new PageFormFields($id));
+    $data = $this->dispatch(new PageFormFields($id, $converter));
     return view('admin.page.edit', $data);
   }
 
