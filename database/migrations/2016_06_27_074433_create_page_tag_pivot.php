@@ -16,7 +16,9 @@ class CreatePageTagPivot extends Migration
             $table->increments('id');
             $table->integer('page_id')->unsigned()->index();
             $table->integer('tag_id')->unsigned()->index();
-        });
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+		});
     }
 
     /**

@@ -16,7 +16,16 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('title');
-            $table->text('content');
+
+            $table->text('content_raw');
+            $table->text('content_html');
+
+            $table->string('page_image');
+
+            $table->boolean('is_draft');
+
+            $table->integer('visited')->unsigned();
+
             $table->timestamps();
             $table->timestamp('published_at')->index();
         });

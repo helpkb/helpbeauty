@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostTagPivot extends Migration
+class CreateCatPostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreatePostTagPivot extends Migration
      */
     public function up()
     {
-        Schema::create('post_tag_pivot', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('post_id')->unsigned()->index();
-            $table->integer('tag_id')->unsigned()->index();
+        Schema::table('cat_post', function (Blueprint $table) {
+			$table->increments('id');
+			  $table->integer('post_id')->unsigned()->index();
+			  $table->integer('category_id')->unsigned()->index();
+			$table->timestamps();
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 		});
     }
 
@@ -28,6 +29,6 @@ class CreatePostTagPivot extends Migration
      */
     public function down()
     {
-        Schema::drop('post_tag_pivot');
+		Schema::drop('post_tag_pivot');
     }
 }
