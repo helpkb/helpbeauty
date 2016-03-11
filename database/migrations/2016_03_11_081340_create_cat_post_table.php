@@ -12,7 +12,7 @@ class CreateCatPostTable extends Migration
      */
     public function up()
     {
-        Schema::table('cat_post', function (Blueprint $table) {
+        Schema::create('cat_post', function (Blueprint $table) {
 			$table->increments('id');
 			  $table->integer('post_id')->unsigned()->index();
 			  $table->integer('category_id')->unsigned()->index();
@@ -20,7 +20,7 @@ class CreateCatPostTable extends Migration
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 		});
-    }
+	}
 
     /**
      * Reverse the migrations.
@@ -29,6 +29,6 @@ class CreateCatPostTable extends Migration
      */
     public function down()
     {
-		Schema::drop('post_tag_pivot');
+		Schema::drop('cat_post');
     }
 }

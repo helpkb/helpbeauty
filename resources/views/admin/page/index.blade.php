@@ -46,8 +46,8 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('admin.page.edit', [$tag->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.page.destroy', [$tag->id]) }}"><i class="fa fa-trash"></i></button>
+                                <a href="{{ route('admin.page.edit', [$page->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.page.destroy', [$page->id]) }}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                     @endforeach
