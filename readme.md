@@ -6,8 +6,8 @@
 `composer install`
 
 ## New environment file
-`copy .env.example .env
-php artisan key:generate`
+`copy .env.example .env`
+`php artisan key:generate`
 
 ## run migrations:
 `php artisan migrate`
