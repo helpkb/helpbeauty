@@ -26,13 +26,6 @@
 @stop
 
 
-
-
-
-
-
-
-
 @section('kb')
     class = "active"
 @stop

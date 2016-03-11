@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\PostFormFields;
 use App\Http\Requests;
-use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
 
@@ -27,9 +27,9 @@ class PostController extends Controller
   /**
    * Show the new post form
    */
-  public function create()
+  public function create(Converter $converter)
   {
-    $data = $this->dispatch(new PostFormFields());
+    $data = $this->dispatch(new PostFormFields($id = null, $converter));
 
     return view('admin.post.create', $data);
   }
@@ -50,8 +50,8 @@ class PostController extends Controller
         try{
           $category->fill($request->except('slug'))->save();
      **/
-    $post = Post::create($request->postFillData()->except('slug'));
-    Post::syncTags($request->get('tags', []));
+    $post = Post::create($request->postFillData());
+    $post->syncTags($request->get('tags', []));
 
     return redirect()
       ->route('admin.post.index')

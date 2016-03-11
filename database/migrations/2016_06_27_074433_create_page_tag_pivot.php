@@ -12,7 +12,7 @@ class CreatePageTagPivot extends Migration
      */
     public function up()
     {
-        Schema::create('pages_tag_pivot', function (Blueprint $table) {
+        Schema::create('page_tag_pivot', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('page_id')->unsigned()->index();
             $table->integer('tag_id')->unsigned()->index();
@@ -28,6 +28,6 @@ class CreatePageTagPivot extends Migration
      */
     public function down()
     {
-        Schema::drop('pages_tag_pivot');
+        Schema::drop('page_tag_pivot');
     }
 }
