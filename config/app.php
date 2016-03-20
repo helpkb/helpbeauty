@@ -114,7 +114,11 @@ return [
      * Laravel Framework Service Providers...
      */
     //Illuminate\Foundation\Providers\ArtisanServiceProvider::class,	// Upgrade from laravel 5.1 to 5.2
-    Collective\Html\HtmlServiceProvider::class,
+      Collective\Html\HtmlServiceProvider::class,
+      Laracasts\Flash\FlashServiceProvider::class,
+      Prettus\Repository\Providers\RepositoryServiceProvider::class,
+      \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
+      \InfyOm\CoreTemplates\CoreTemplatesServiceProvider::class,
     Illuminate\Auth\AuthServiceProvider::class,
     Illuminate\Broadcasting\BroadcastServiceProvider::class,
     Illuminate\Bus\BusServiceProvider::class,
