@@ -1,7 +1,11 @@
+.idea
 /vendor
 /node_modules
+Homestead.yaml
+Homestead.json
 .env
+bower_components
 /storage
 composer.lock
-.idea
 auth.json
+/composer.lock
