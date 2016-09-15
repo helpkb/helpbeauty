@@ -13,25 +13,25 @@ class PostTableSeeder extends Seeder
     public function run()
     {
         // Pull all the tag names from the file
-        $tags = Tag::lists('tag')->all();
+        $tags = Tag::all();
 
-        Post::truncate();
+        //Post::truncate();
 
         // Don't forget to truncate the pivot table
-        DB::table('post_tag_pivot')->truncate();
+        //DB::table('post_tag_pivot')->truncate();
 
-        factory(Post::class, 20)->create()->each(function ($post) use ($tags) {
+        factory(Post::class, 2000)->create()->each(function ($post) use ($tags) {
 
-            // 30% of the time don't assign a tag
-            if (mt_rand(1, 100) <= 30) {
+            // 10% of the time don't assign a tag
+            if (mt_rand(1, 100) <= 10) {
                 return;
             }
 
             shuffle($tags);
             $postTags = [$tags[0]];
 
-            // 30$ of the time we're assigning tags, assign 2
-            if (mt_rand(1, 100) <= 30) {
+            // 90% of the time we're assigning tags, assign 2
+            if (mt_rand(1, 100) <= 90) {
                 $postTags[] = $tags[1];
             }
 

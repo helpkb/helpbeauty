@@ -5,9 +5,9 @@ namespace App\Jobs;
 use App\Post;
 use App\Tag;
 use Carbon\Carbon;
-use Illuminate\Contracts\Bus\SelfHandling;
+//use Illuminate\Contracts\Bus\SelfHandling;
 
-class BlogIndexData extends Job implements SelfHandling
+class BlogIndexData extends Job
 {
     protected $tag;
 

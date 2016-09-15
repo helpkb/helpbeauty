@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -22,36 +23,48 @@ class Handler extends ExceptionHandler
    *
    * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
    *
-   * @param  \Exception $e
+   * @param  \Exception $exception
    * @return void
    */
-  public function report(Exception $e)
+  public function report(Exception $exception)
   {
 
 
-    return parent::report($e);
+        parent::report($exception);
   }
 
   /**
    * Render an exception into an HTTP response.
    *
    * @param  \Illuminate\Http\Request $request
-   * @param  \Exception               $e
+   * @param  \Exception               $exception
    * @return \Illuminate\Http\Response
    */
-  public function render($request, Exception $e)
+  public function render($request, Exception $exception)
   {
-    if ($this->isHttpException($e)) {
-      return $this->renderHttpException($e);
-    }
-
-
-    if (config('app.debug')) {
-      return $this->renderExceptionWithWhoops($e);
-    }
-
-    return parent::render($request, $e);
+    return parent::render($request, $exception);
   }
+
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        if (config('app.debug')) {
+            $whoops = new \Whoops\Run;
+            if (request()->wantsJson()) {
+                $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
+            } else {
+                $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            }
+            return response()->make(
+                $whoops->handleException($e),
+                method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500,
+                method_exists($e, 'getHeaders') ? $e->getHeaders() : []
+            );
+        }
+        return parent::convertExceptionToResponse($e);
+    }
+
+
+
 
   /**
    * Render an exception using Whoops.
@@ -70,6 +83,28 @@ class Handler extends ExceptionHandler
       $e->getHeaders()
     );
   }
+
+
+
+
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+        return redirect()->guest('guestindex');
+    }
+
+
+
 
 
 }

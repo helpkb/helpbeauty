@@ -80,7 +80,7 @@
         @foreach($categorys as $category)
             <?php
             $num = \App\Model\kb\Relationship::where('category_id', '=', $category->id)->get();
-            $article_id = $num->lists('article_id');
+            $article_id = $num->article_id;
             $numcount = count($article_id);
             ?>
             @if($numcount > 0)

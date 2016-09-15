@@ -2,16 +2,15 @@
 
 namespace App;
 
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 use App\Services\Markdowner;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model implements SluggableInterface
+class Page extends Model
 {
 
-  use SluggableTrait;
+  use Sluggable;
 
   protected $sluggable = [
     'build_from' => 'title',
@@ -22,6 +21,22 @@ class Page extends Model implements SluggableInterface
   protected $fillable = [
     'title', 'content_raw'
   ];
+
+
+  /**
+   * Return the sluggable configuration array for this model.
+   *
+   * @return array
+   */
+  public function sluggable()
+  {
+    return [
+        'slug' => [
+            'source' => 'title'
+        ]
+    ];
+  }
+
 
   /**
    * The many-to-many relationship between posts and tags.
@@ -89,7 +104,7 @@ class Page extends Model implements SluggableInterface
 
     if (count($tags)) {
       $this->tags()->sync(
-        Tag::whereIn('tag', $tags)->lists('id')->all()
+        Tag::whereIn('tag', $tags)->pluck('id')->all()
       );
       return;
     }

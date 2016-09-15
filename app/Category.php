@@ -1,9 +1,7 @@
 <?php
 namespace App;
 
-
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Kalnoy\Nestedset\NodeTrait;
 use Baum\Node;
 use App\Post;
@@ -14,12 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Category
  */
-class Category extends Node implements SluggableInterface
+class Category extends Node
 {
 
   use PresentableTrait;
   protected $presenter = CategoryPresenter::class;
-  use SluggableTrait;
+  use Sluggable;
 
   // /**
   //  * Column name for the left index.
@@ -49,6 +47,21 @@ class Category extends Node implements SluggableInterface
    * @var string
    */
   protected $table = 'categories';
+
+  /**
+   * Return the sluggable configuration array for this model.
+   *
+   * @return array
+   */
+  public function sluggable()
+  {
+    return [
+        'slug' => [
+            'source' => 'name'
+        ]
+    ];
+  }
+
 
 
   public function posts() {
@@ -97,7 +110,7 @@ class Category extends Node implements SluggableInterface
   public function scopeCategorized($query, Category $category=null) {
     if ( is_null($category) ) return $query->with('categories');
 
-    $categoryIds = $category->getDescendantsAndSelf()->lists('id');
+    $categoryIds = $category->getDescendantsAndSelf()->pluck('id');
 
     return $query->with('categories')
       ->join('products_categories', 'products_categories.product_id', '=', 'products.id')

@@ -63,7 +63,7 @@ class SiteMap
         return Post::where('published_at', '<=', Carbon::now())
             ->where('is_draft', 0)
             ->orderBy('published_at', 'desc')
-            ->lists('updated_at', 'slug')
+            ->pluck('updated_at', 'slug')
             ->all();
     }
 }

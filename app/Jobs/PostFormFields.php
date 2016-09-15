@@ -7,9 +7,9 @@ use App\Tag;
 use Carbon\Carbon;
 use League\CommonMark\Converter;
 use League\HTMLToMarkdown\HtmlConverter;
-use Illuminate\Contracts\Bus\SelfHandling;
+//use Illuminate\Contracts\Bus\SelfHandling;
 
-class PostFormFields extends Job implements SelfHandling
+class PostFormFields extends Job
 {
   /**
    * The id (if any) of the Post row
@@ -62,7 +62,7 @@ class PostFormFields extends Job implements SelfHandling
 
     return array_merge(
       $fields,
-      ['allTags' => Tag::lists('tag')->all()]
+      ['allTags' => Tag::pluck('tag')->all()]
     );
   }
 
@@ -90,7 +90,7 @@ class PostFormFields extends Job implements SelfHandling
       }
     }
 
-    $fields['tags'] = $post->tags()->lists('tag')->all();
+    $fields['tags'] = $post->tags()->pluck('tag')->all();
 
     return $fields;
   }

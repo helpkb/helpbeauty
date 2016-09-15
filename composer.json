@@ -8,34 +8,49 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=5.5.9",
-    "laravel/framework": "5.2.x-dev",
-    "laravelcollective/html": "5.2.*",
-    "filp/whoops": "~1.0",
-    "michelf/php-markdown": "^1.5",
-    "erusev/parsedown": "~1.4",
-    "erusev/parsedown-extra": "0.7.1",
-    "baum/baum": "~1.1",
-    "michelf/php-smartypants": "1.6.0-beta1",
-    "dflydev/apache-mime-types": "^1.0",
-	"stevebauman/purify": "1.1.*",
-    "league/flysystem-aws-s3-v3": "^1.0",
-    "laracasts/presenter": "0.2.*",
+    "php": ">=5.6.4",
+    "laravel/framework": "5.3.*",
+    "laravelcollective/html": "5.3.*@dev",
+    "yajra/laravel-datatables-oracle": "~6.0",
+    "filp/whoops": "^2.1",
+    "guzzlehttp/guzzle": "^6.2",
+    "zizaco/entrust": "5.2.x-dev",
+    "caffeinated/modules": "^4.0",
+    "caffeinated/flash": "^3.0",
+    "league/color-extractor": "0.3.*",
+    "league/json-guard": "^0.3.3",
+
+
     "doctrine/dbal": "^2.5",
-    "guzzlehttp/guzzle": "~5.0",
-    "suin/php-rss-writer": "^1.3",
-    "roumen/sitemap": "2.4.*",
-    "barryvdh/laravel-debugbar": "2.2.x-dev",
-    "cviebrock/eloquent-sluggable": "^3.1",
-    "graham-campbell/markdown": "^6.0",
+    "kalnoy/nestedset": "^4.1",
+    "vespakoen/menu": "3.*",
+    "barryvdh/laravel-ide-helper": "^2.2",
+
+    "barryvdh/laravel-debugbar": "^2.2",
+    "cviebrock/eloquent-sluggable": "4.0",
+    "cviebrock/eloquent-taggable": "^2.0",
+    "maddhatter/laravel-fullcalendar": "^1.2",
+    "michelf/php-markdown": "^1.6",
+    "michelf/php-smartypants": "^1.6@beta",
+    "erusev/parsedown": "^1.6",
+    "erusev/parsedown-extra": "^0.7.1",
+    "baum/baum": "^1.1",
+    "dflydev/apache-mime-types": "^1.0",
+    "stevebauman/purify": "^1.1",
+    "league/flysystem-aws-s3-v3": "^1.0",
+    "laracasts/presenter": "^0.2.1",
+    "suin/php-rss-writer": "^1.5",
+    "roumen/sitemap": "^2.6",
     "league/html-to-markdown": "^4.2",
-    "kalnoy/nestedset": "^4.1"
+    "graham-campbell/markdown": "^6.0"
+
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
     "mockery/mockery": "0.9.*",
     "phpunit/phpunit": "~4.0",
-    "phpspec/phpspec": "~2.1"
+    "symfony/css-selector": "2.8.*|3.0.*",
+    "symfony/dom-crawler": "2.8.*|3.0.*"
   },
   "autoload": {
     "classmap": [
@@ -54,7 +69,15 @@
     ]
   },
   "scripts": {
+    "post-root-package-install": [
+      "php -r \"copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
     "post-install-cmd": [
+      "php -r \"copy('.env.example', '.env');\"",
+      "php artisan key:generate",
       "php artisan clear-compiled",
       "php artisan optimize"
     ],
@@ -62,13 +85,9 @@
       "php artisan clear-compiled"
     ],
     "post-update-cmd": [
+      "php artisan ide-helper:generate",
+      "php artisan ide-helper:meta",
       "php artisan optimize"
-    ],
-    "post-root-package-install": [
-      "php -r \"copy('.env.example', '.env');\""
-    ],
-    "post-create-project-cmd": [
-      "php artisan key:generate"
     ]
   },
   "config": {

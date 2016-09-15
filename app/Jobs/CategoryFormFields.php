@@ -5,9 +5,9 @@ namespace App\Jobs;
 use App\Category;
 use App\Tag;
 use Carbon\Carbon;
-use Illuminate\Contracts\Bus\SelfHandling;
+//use Illuminate\Contracts\Bus\SelfHandling;
 
-class CategoryFormFields extends Job implements SelfHandling
+class CategoryFormFields extends Job
 {
   /**
    * The id (if any) of the Post row

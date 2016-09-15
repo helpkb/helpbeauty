@@ -7,12 +7,12 @@ use App\Tag;
 use App\Page;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Bus\SelfHandling;
+//use Illuminate\Contracts\Bus\SelfHandling;
 
 use League\CommonMark\Converter;
 use League\HTMLToMarkdown\HtmlConverter;
 
-class PageFormFields extends Job implements SelfHandling
+class PageFormFields extends Job
 {
   /**
    * The id (if any) of the Post row
@@ -64,7 +64,7 @@ class PageFormFields extends Job implements SelfHandling
 
     return array_merge(
       $fields,
-      ['allTags' => Tag::lists('tag')->all()]
+      ['allTags' => Tag::pluck('tag')->all()]
     );
   }
 
@@ -92,7 +92,7 @@ class PageFormFields extends Job implements SelfHandling
       }
     }
 
-    $fields['tags'] = $page->tags()->lists('tag')->all();
+    $fields['tags'] = $page->tags()->pluck('tag')->all();
 
     return $fields;
   }

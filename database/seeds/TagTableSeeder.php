@@ -10,8 +10,8 @@ class TagTableSeeder extends Seeder
      */
     public function run()
     {
-        Tag::truncate();
+        //Tag::truncate();
 
-        factory(Tag::class, 5)->create();
+        factory(Tag::class, 500)->create();
     }
 }
