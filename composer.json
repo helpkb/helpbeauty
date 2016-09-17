@@ -34,7 +34,7 @@
     "michelf/php-smartypants": "^1.6@beta",
     "erusev/parsedown": "^1.6",
     "erusev/parsedown-extra": "^0.7.1",
-    "baum/baum": "^1.1",
+    "gazsp/baum": "~1.1",
     "dflydev/apache-mime-types": "^1.0",
     "stevebauman/purify": "^1.1",
     "league/flysystem-aws-s3-v3": "^1.0",
